@@ -35,10 +35,60 @@ const restaurant = {
       close: 23,
     },
     sat: {
-      open: 0, // Open 24 hours
+      open: 0, // Open 24 hours 
       close: 24,
     },
   },
+  order: function(starterIndex,mainIndex){
+    return [this.starterMenu[starterIndex] ,this.mainMenu[mainIndex]]
+  }
 
 };
 
+// Array destructuring :  
+// -------------------
+
+const arr = [2,3,4];
+
+const [a,b,c] = arr;
+
+console.log(a,b,c)
+
+let [main,,secondary] = restaurant.categories;
+console.log(main,secondary);
+
+// switch 2 values with destructuring : 
+// -----------------------------------
+
+[secondary,main] = [main,secondary];
+
+console.log(main,secondary);
+
+
+// Receive 2 values from a function :
+// ---------------------------------
+const [first,second] = restaurant.order(2,0)
+
+console.log(first,second);
+
+// Taking out values with nested array :
+// ------------------------------------
+
+const nested = [2,4,[5,6]];
+
+
+// const [i,,j] = nested;
+
+// console.log(i,j)
+
+
+const [i,,[j,k]] = nested;
+
+ console.log(i,j,k) //=> output will be 2 5 6 
+
+//  Default values with destructuring :
+// ------------------------------------
+
+const [p = 0,q = 0,r = 0] = [8,9] // imagin we don't know the length off this array and try to take out à value that de not exist
+
+console.log(p,q,r) // output will be 8 9 0 
