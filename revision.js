@@ -1,22 +1,22 @@
 "use strict";
 const flights =
   "_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30";
-const weekDays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+// const weekDays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
-const openingHours = {
-  [weekDays[3]]: {
-    open: 12,
-    close: 22,
-  },
-  [weekDays[4]]: {
-    open: 11,
-    close: 23,
-  },
-  [weekDays[5]]: {
-    open: 0, // Open 24 hours
-    close: 24,
-  },
-};
+// const openingHours = {
+//   [weekDays[3]]: {
+//     open: 12,
+//     close: 22,
+//   },
+//   [weekDays[4]]: {
+//     open: 11,
+//     close: 23,
+//   },
+//   [weekDays[5]]: {
+//     open: 0, // Open 24 hours
+//     close: 24,
+//   },
+// };
 
 const restaurant = {
   name: "Classico Italiano",
@@ -41,8 +41,10 @@ const restaurant = {
   },
   order: function(starterIndex,mainIndex){
     return [this.starterMenu[starterIndex] ,this.mainMenu[mainIndex]]
-  }
-
+  },
+orderDelivery: function({starterIndex,mainIndex,time,adress}){
+console.log(`Order received ! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be deliverd to ${adress} at ${time}`)
+}
 };
 
 // Array destructuring :  
@@ -50,9 +52,9 @@ const restaurant = {
 
 const arr = [2,3,4];
 
-const [a,b,c] = arr;
+// const [a,b,c] = arr;
 
-console.log(a,b,c)
+// console.log(a,b,c)
 
 let [main,,secondary] = restaurant.categories;
 console.log(main,secondary);
@@ -92,3 +94,56 @@ const [i,,[j,k]] = nested;
 const [p = 0,q = 0,r = 0] = [8,9] // imagin we don't know the length off this array and try to take out à value that de not exist
 
 console.log(p,q,r) // output will be 8 9 0 
+
+
+
+
+// Destructuring Objects 
+// ---------------------
+
+// const {name,openingHours,categories} = restaurant;
+
+// console.log(name,openingHours,categories)
+
+
+// change variable names : 
+
+
+
+const {name:restName,openingHours:hours,categories:tags} = restaurant;
+
+console.log(restName,hours,tags)
+
+// Setting default values : 
+
+
+const {menu = [],starterMenu : starters = []} = restaurant
+
+console.log(menu,starters);
+
+
+// Mutating variables while destructuring in objects: 
+
+let a = 111;
+let b = 999;
+
+const obj = {a:23,b:7,c:14};
+
+// {a,b} = obj; // -> will not work because when we start a line with {} js expects a code block, and since we cannot assign anything to a code block we got a syntax error 
+({a,b} = obj); // -> the trick is to wrapp up everything between () 
+
+console.log(a,b)
+
+// Destructuring nested objects : 
+
+const {openingHours: {fri:{open:o,close:c}}} = restaurant;
+
+console.log(o,c)
+
+const output = restaurant.orderDelivery({
+  name:'mehdi',
+  time:'22:30',
+  adress:'Via del sol',
+  mainIndex:2,
+  starterIndex:2,
+})
