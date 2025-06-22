@@ -35,22 +35,29 @@ const restaurant = {
       close: 23,
     },
     sat: {
-      open: 0, // Open 24 hours 
+      open: 0, // Open 24 hours
       close: 24,
     },
   },
-  order: function(starterIndex,mainIndex){
-    return [this.starterMenu[starterIndex] ,this.mainMenu[mainIndex]]
+  order: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
-orderDelivery: function({starterIndex,mainIndex,time,adress}){
-console.log(`Order received ! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be deliverd to ${adress} at ${time}`)
-},
-orderPasta: function(ing1,ing2,ing3){
-console.log(`here is your delicous pasta with ${ing1}, ${ing2} and ${ing3} !`)
-}
+  orderDelivery: function ({ starterIndex, mainIndex, time, adress }) {
+    console.log(
+      `Order received ! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be deliverd to ${adress} at ${time}`
+    );
+  },
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(
+      `here is your delicous pasta with ${ing1}, ${ing2} and ${ing3} !`
+    );
+  },
+  orderPizza: function (mainIng, ...otherIng) {
+    console.log(mainIng, otherIng);
+  },
 };
 
-// Array destructuring :  
+// Array destructuring :
 // -------------------
 
 // const arr = [2,3,4];
@@ -59,139 +66,158 @@ console.log(`here is your delicous pasta with ${ing1}, ${ing2} and ${ing3} !`)
 
 // console.log(a,b,c)
 
-let [main,,secondary] = restaurant.categories;
-console.log(main,secondary);
+let [main, , secondary] = restaurant.categories;
+console.log(main, secondary);
 
-// switch 2 values with destructuring : 
+// switch 2 values with destructuring :
 // -----------------------------------
 
-[secondary,main] = [main,secondary];
+[secondary, main] = [main, secondary];
 
-console.log(main,secondary);
-
+console.log(main, secondary);
 
 // Receive 2 values from a function :
 // ---------------------------------
-const [first,second] = restaurant.order(2,0)
+const [first, second] = restaurant.order(2, 0);
 
-console.log(first,second);
+console.log(first, second);
 
 // Taking out values with nested array :
 // ------------------------------------
 
-const nested = [2,4,[5,6]];
-
+const nested = [2, 4, [5, 6]];
 
 // const [i,,j] = nested;
 
 // console.log(i,j)
 
+const [i, , [j, k]] = nested;
 
-const [i,,[j,k]] = nested;
-
- console.log(i,j,k) //=> output will be 2 5 6 
+console.log(i, j, k); //=> output will be 2 5 6
 
 //  Default values with destructuring :
 // ------------------------------------
 
-const [p = 0,q = 0,r = 0] = [8,9] // imagin we don't know the length off this array and try to take out à value that de not exist
+const [p = 0, q = 0, r = 0] = [8, 9]; // imagin we don't know the length off this array and try to take out à value that de not exist
 
-console.log(p,q,r) // output will be 8 9 0 
+console.log(p, q, r); // output will be 8 9 0
 
-
-
-
-// Destructuring Objects 
+// Destructuring Objects
 // ---------------------
 
 // const {name,openingHours,categories} = restaurant;
 
 // console.log(name,openingHours,categories)
 
+// change variable names :
 
-// change variable names : 
+const { name: restName, openingHours: hours, categories: tags } = restaurant;
 
+console.log(restName, hours, tags);
 
-
-const {name:restName,openingHours:hours,categories:tags} = restaurant;
-
-console.log(restName,hours,tags)
-
-// Setting default values : 
-
+// Setting default values :
 
 // const {menu = [],starterMenu : starters = []} = restaurant
 
 // console.log(menu,starters);
 
-
-// Mutating variables while destructuring in objects: 
+// Mutating variables while destructuring in objects:
 
 let a = 111;
 let b = 999;
 
-const obj = {a:23,b:7,c:14};
+const obj = { a: 23, b: 7, c: 14 };
 
-// {a,b} = obj; // -> will not work because when we start a line with {} js expects a code block, and since we cannot assign anything to a code block we got a syntax error 
-({a,b} = obj); // -> the trick is to wrapp up everything between () 
+// {a,b} = obj; // -> will not work because when we start a line with {} js expects a code block, and since we cannot assign anything to a code block we got a syntax error
+({ a, b } = obj); // -> the trick is to wrapp up everything between ()
 
-console.log(a,b)
+console.log(a, b);
 
-// Destructuring nested objects : 
+// Destructuring nested objects :
 
-const {openingHours: {fri:{open:o,close:c}}} = restaurant;
+const {
+  openingHours: {
+    fri: { open: o, close: c },
+  },
+} = restaurant;
 
-console.log(o,c)
+console.log(o, c);
 
 const output = restaurant.orderDelivery({
-  name:'mehdi',
-  time:'22:30',
-  adress:'Via del sol',
-  mainIndex:2,
-  starterIndex:2,
-})
-
+  name: "mehdi",
+  time: "22:30",
+  adress: "Via del sol",
+  mainIndex: 2,
+  starterIndex: 2,
+});
 
 // The spread operator :
 // ---------------------
 
-const arr = [7,8,9];
+const arr = [7, 8, 9];
 
-const badNewArr = [1,2,arr[0],arr[1],arr[2]];
+const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
 console.log(badNewArr);
 
+// with spread operator :
 
-// with spread operator : 
-
-
-const goodArr = [1,2,...arr];
+const goodArr = [1, 2, ...arr];
 
 console.log(goodArr);
 console.log(...goodArr);
 
-const newMenu = [...restaurant.mainMenu,'Gnocci'];
+const newMenu = [...restaurant.mainMenu, "Gnocci"];
 console.log(newMenu);
 
-
-// creating shellow copie : 
+// creating shellow copie :
 const mainMenuCopie = [...restaurant.mainMenu];
 
 // merging 2 arrays together or more:
 
 const menu = [...restaurant.mainMenu, ...restaurant.starterMenu];
 
-// Create function accepting multiple parameters : 
+// Create function accepting multiple parameters :
 
 // const ingrediants = [prompt(`What ingrediants do you want ?`),prompt(`chose a second ingrediant ?`),prompt(`chose a thord ingrediant?`)];
 // restaurant.orderPasta(...ingrediants);
 
-
-// Spread operator with objects : 
+// Spread operator with objects :
 // ---------------------------------
 
-
-const newRestaurant = {...restaurant,founder:'Guiseppe',foundedIN: 1998};
+const newRestaurant = { ...restaurant, founder: "Guiseppe", foundedIN: 1998 };
 
 console.log(newRestaurant);
 
+// Rest pattern and Rest parameter :
+// ---------------------------------
 
+// With arrays :
+
+const [firstMenu, ...others] = restaurant.starterMenu;
+console.log(firstMenu, others);
+
+// with objetcs :
+
+const { name, ...othersRest } = restaurant;
+
+console.log(name);
+console.log(othersRest);
+
+// REST parameter :
+
+// Passing multiple parameter at the same time :
+const add = function (...number) {
+  let sum = 0;
+  for (let i = 0; i < number.length; i++) sum += number[i];
+  console.log(sum);
+};
+
+add(5, 6, 8, 1);
+add(5, 3, 7, 2);
+add(3, 6, 6, 1);
+add(1, 6, 4, 1);
+
+const x = [23, 5, 7];
+add(...x);
+
+restaurant.orderPizza("spinach", "tomato", "onions");
