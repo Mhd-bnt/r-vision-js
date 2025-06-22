@@ -44,13 +44,16 @@ const restaurant = {
   },
 orderDelivery: function({starterIndex,mainIndex,time,adress}){
 console.log(`Order received ! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be deliverd to ${adress} at ${time}`)
+},
+orderPasta: function(ing1,ing2,ing3){
+console.log(`here is your delicous pasta with ${ing1}, ${ing2} and ${ing3} !`)
 }
 };
 
 // Array destructuring :  
 // -------------------
 
-const arr = [2,3,4];
+// const arr = [2,3,4];
 
 // const [a,b,c] = arr;
 
@@ -117,9 +120,9 @@ console.log(restName,hours,tags)
 // Setting default values : 
 
 
-const {menu = [],starterMenu : starters = []} = restaurant
+// const {menu = [],starterMenu : starters = []} = restaurant
 
-console.log(menu,starters);
+// console.log(menu,starters);
 
 
 // Mutating variables while destructuring in objects: 
@@ -147,3 +150,48 @@ const output = restaurant.orderDelivery({
   mainIndex:2,
   starterIndex:2,
 })
+
+
+// The spread operator :
+// ---------------------
+
+const arr = [7,8,9];
+
+const badNewArr = [1,2,arr[0],arr[1],arr[2]];
+console.log(badNewArr);
+
+
+// with spread operator : 
+
+
+const goodArr = [1,2,...arr];
+
+console.log(goodArr);
+console.log(...goodArr);
+
+const newMenu = [...restaurant.mainMenu,'Gnocci'];
+console.log(newMenu);
+
+
+// creating shellow copie : 
+const mainMenuCopie = [...restaurant.mainMenu];
+
+// merging 2 arrays together or more:
+
+const menu = [...restaurant.mainMenu, ...restaurant.starterMenu];
+
+// Create function accepting multiple parameters : 
+
+// const ingrediants = [prompt(`What ingrediants do you want ?`),prompt(`chose a second ingrediant ?`),prompt(`chose a thord ingrediant?`)];
+// restaurant.orderPasta(...ingrediants);
+
+
+// Spread operator with objects : 
+// ---------------------------------
+
+
+const newRestaurant = {...restaurant,founder:'Guiseppe',foundedIN: 1998};
+
+console.log(newRestaurant);
+
+
