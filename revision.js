@@ -221,3 +221,46 @@ const x = [23, 5, 7];
 add(...x);
 
 restaurant.orderPizza("spinach", "tomato", "onions");
+
+// Short circuiting (&& and ||) :
+// ----------------------------
+
+// can combine with logical operator : any data type , return any data type , and they do short-circuiting :
+console.log("------- OR short-circuiting --------");
+
+// Short-circuiting with or operator (||) :
+// -------------------------------------
+
+console.log(3 || "mehdi"); // => if first value is a truthy value it will be returned
+console.log("" || "mehdi"); // -> returned value "mehdi"
+console.log(true || 0); //returned value true
+console.log(undefined || null); // both are falsy so the last one will be returned : null
+
+console.log(undefined || 0 || "" || "hello" || 23 || null); // returned value will be 'hello'
+
+restaurant.numGuests = 23;
+const guests1 = restaurant.numGuests || 10; // verify if the proprety numGuests exist if false we will put a default value of 5
+
+console.log(guests1);
+
+console.log("------- AND short-circuiting --------");
+// short-circuiting with and operator (&&) :
+// --------------------------------------
+
+// works on the opposite way than the or operator, && operator short curcuits at the first falsy value
+
+console.log(0 && "jonas"); // will return 0 because its falsy
+console.log(7 && "Mehdi"); // returned value will be 'mehdi'
+
+console.log("Hello" && 23 && null && "mehdi"); // returned value will be null
+
+// Pratical exemple :
+
+// instead of this :
+if (restaurant.orderPizza) {
+  restaurant.orderPizza("mushrooms", "spinach");
+}
+
+// we can do this :
+
+restaurant.orderPizza && restaurant.orderPizza("mushrooms", "spinach");
