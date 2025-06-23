@@ -283,3 +283,47 @@ console.log(guests1);
 
 // Nullish Coalescing Operator workds with the idea of nullish values instead of falsy values
 // nulish values are : null and undifined (does not include 0 or '')
+
+// Logical Assignment Operators:
+// -----------------------------
+console.log("------- Logical Assignment Operators: --------");
+
+const rest1 = {
+  name: "Capri",
+  // numGuests: 20,
+  numGuests: 0, //problem if we use 0
+};
+const rest2 = {
+  name: "La Piazza",
+  owner: "Giovanni Rossi",
+};
+
+// setting default value for number of guests :
+// rest1.numGuests = rest1.numGuests || 10; //-> output 20
+// rest2.numGuests = rest2.numGuests || 10; //-> output 10
+
+// console.log(rest1, rest2);
+
+// With or assignement operator :
+// ------------------------------
+
+// rest1.numGuests ||= 10;
+// rest2.numGuests ||= 10;
+
+// console.log(rest1, rest2);
+
+// nullish assignement operator :
+// ----------------------------------------
+
+rest1.numGuests ??= 10;
+rest2.numGuests ??= 10;
+
+// console.log(rest1, rest2);
+
+// Logical and assignement operator :
+// ----------------------------------
+// let's say we want to anonymise the owners name
+console.log("anonymous");
+rest1.owner &&= "Anonymous";
+rest2.owner &&= "Anonymous";
+console.log(rest1, rest2);
