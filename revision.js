@@ -238,10 +238,10 @@ console.log(undefined || null); // both are falsy so the last one will be return
 
 console.log(undefined || 0 || "" || "hello" || 23 || null); // returned value will be 'hello'
 
-restaurant.numGuests = 23;
-const guests1 = restaurant.numGuests || 10; // verify if the proprety numGuests exist if false we will put a default value of 5
+// restaurant.numGuests = 23;
+// const guests1 = restaurant.numGuests || 10; // verify if the proprety numGuests exist if false we will put a default value of 5
 
-console.log(guests1);
+// console.log(guests1);
 
 console.log("------- AND short-circuiting --------");
 // short-circuiting with and operator (&&) :
@@ -264,3 +264,22 @@ if (restaurant.orderPizza) {
 // we can do this :
 
 restaurant.orderPizza && restaurant.orderPizza("mushrooms", "spinach");
+
+// The Nullish Coalescing Operator (??) :
+// --------------------------------------
+
+// The probleme here is that 0 is a valid number but since it's a falsy value the default value will be returned so 10
+
+restaurant.numGuests = 0;
+const guests = restaurant.numGuests || 10; // verify if the proprety numGuests exist if false we will put a default value of 5
+
+console.log(guests);
+
+// so we can use the The Nullish Coalescing Operator (??) :
+
+const guests1 = restaurant.numGuests ?? 10;
+
+console.log(guests1);
+
+// Nullish Coalescing Operator workds with the idea of nullish values instead of falsy values
+// nulish values are : null and undifined (does not include 0 or '')
