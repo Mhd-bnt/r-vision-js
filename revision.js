@@ -327,3 +327,17 @@ console.log("anonymous");
 rest1.owner &&= "Anonymous";
 rest2.owner &&= "Anonymous";
 console.log(rest1, rest2);
+
+// Looping Arrays: The for-of Loop :
+// --------------------------------
+
+const menu1 = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+// for (const item of menu1) console.log(item); // with for of loops we can still access continue and break key words
+
+// but what if we also want the current index with the current element ? :
+// ----------------------------------------------------------------------
+
+for (const [key, item] of menu.entries()) {
+  console.log(`${key + 1} : ${item}`);
+}
