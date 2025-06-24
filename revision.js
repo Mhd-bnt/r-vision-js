@@ -400,3 +400,45 @@ const rest = {
     console.log(mainIng, otherIng);
   },
 };
+
+// Optional Chaining (?.) :
+// ------------------------
+console.log("------Optional Chaining (?.)------");
+// imagin this restaurant objects cames from an api call and that we don't know if some proprety's exist :
+if (restaurant.openingHours && restaurant.openingHours.mon)
+  console.log(restaurant.openingHours.mon);
+// withtou optional chaining we would need logical operator / if statement to verify if a propety exist to avoid an error but with optional chaining it is much easier to verify if a certain proprety exists
+
+// Optional chaining :
+
+// console.log(restaurant.openingHours.mon?.open); //=> whats before the question mark in this case mon will be verified and if it doesnt exist undifiended will be returned
+
+// console.log(restaurant.openingHours?.mon?.open);
+
+const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+
+// Real world example :
+
+for (const day of days) {
+  const open = restaurant.openingHours[day]?.open ?? "closed";
+  console.log(`On ${day}, we open at ${open}`);
+} // !!! if we want to use a variable name as proprety name like here we need the bracket notation !!!
+
+// optional chaining by calling method :
+
+// verifiying if a method exist before calling it
+
+console.log(restaurant.order?.(0, 1) ?? "Method does not exist");
+
+console.log(restaurant.orderBy?.() ?? "Method does not exist"); // trying with method ta do not exist combining with nullish operator
+
+// Optional chaining with Array :
+
+// to check if an array is empty :
+const users = [
+  {
+    name: "mehdi",
+    email: "medben@glmail.com",
+  },
+];
+console.log(users[0]?.name ?? "User array empty");
