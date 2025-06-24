@@ -341,3 +341,62 @@ const menu1 = [...restaurant.starterMenu, ...restaurant.mainMenu];
 for (const [key, item] of menu.entries()) {
   console.log(`${key + 1} : ${item}`);
 }
+
+// Enhanced Object Literals :
+// --------------------------
+// ES6 introduce 3 new ways to which makes it easier to writte objects litteral like the rest object below :
+
+// 1) We can  'compute' proprety names :
+const weekDays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]; //for exemple instead of writting manually the proprety name manually oin the object :
+
+const openingHours = {
+  [weekDays[3]]: {
+    // exemple concret
+    open: 12,
+    close: 22,
+  },
+  [weekDays[4]]: {
+    // we want this openingHours object inside the rest object
+    open: 11,
+    close: 23,
+  },
+  [weekDays[5]]: {
+    open: 0, // Open 24 hours
+    close: 24,
+  },
+};
+
+const rest = {
+  name: "Classico Italiano",
+  location: "Via Angelo Tavanti 23, Firenze, Italy",
+  categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
+  starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
+  mainMenu: ["Pizza", "Pasta", "Risotto"],
+  // openingHours: openingHours, // before ES6 we would do it like this to add another object || the probleme is that the proprety name matches the variable name
+
+  // 2) with ES6 we add another object juste by using the variable name like this :
+
+  openingHours,
+  order: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+  orderDelivery: function ({ starterIndex, mainIndex, time, adress }) {
+    console.log(
+      `Order received ! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be deliverd to ${adress} at ${time}`
+    );
+  },
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(
+      `here is your delicous pasta with ${ing1}, ${ing2} and ${ing3} !`
+    );
+  },
+  // orderPizza: function (mainIng, ...otherIng) {
+  //   console.log(mainIng, otherIng);
+  // },
+
+  //3)  writting methods in ES6 : we don't need anymore to create a proprety and set it as a function expression we can do it like this :
+  // so we just remove the function keyword :
+  orderPizza(mainIng, ...otherIng) {
+    console.log(mainIng, otherIng);
+  },
+};
