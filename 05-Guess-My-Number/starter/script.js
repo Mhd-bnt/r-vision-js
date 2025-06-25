@@ -13,16 +13,16 @@
 // Selecting and Manipulating Elements
 // ------------------------------------
 
-document.querySelector('.message').textContent = 'Correct Number 🎉!';
+// document.querySelector('.message').textContent = 'Correct Number 🎉!';
 
-// Selecting secret number :
-document.querySelector('.number').textContent = 13;
-// selecting the score ;
-document.querySelector('.score').textContent = 10;
+// // Selecting secret number :
+// document.querySelector('.number').textContent = 13;
+// // selecting the score ;
+// document.querySelector('.score').textContent = 10;
 
-// selecting input field :
-document.querySelector('.guess').value = 23; // we can also set a value in the input field
-console.log(document.querySelector('.guess').value); // to read the value of a input field : .value proprety is used
+// // selecting input field :
+// document.querySelector('.guess').value = 23; // we can also set a value in the input field
+// console.log(document.querySelector('.guess').value); // to read the value of a input field : .value proprety is used
 
 // -----------------------
 // Handling Click Events
@@ -36,6 +36,17 @@ console.log(document.querySelector('.guess').value); // to read the value of a i
 
 // In order to listen for events we first need to select the element where the event should happen
 
+const btn = document.querySelector('.btn.check');
+
+btn.addEventListener('click', () => {
+  // function inside the addEventlistener is called an event handler
+  const guess = Number(document.querySelector('.guess').value);
+  console.log(guess);
+
+  if (!guess) {
+    document.querySelector('.message').textContent = 'No number ⛔️';
+  }
+});
 // ----------------------------
 // Implementing the Game Logic
 // ----------------------------
