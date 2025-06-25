@@ -634,3 +634,50 @@ console.log(testMap.get(arrKey));
 testMap.set(document.querySelector("h1"), "test");
 
 console.log(testMap);
+
+// Maps: Iteration :
+// -----------------
+
+// Other way to add new elements to a map without using the set method  :
+
+const question = new Map([
+  ["question", "What's the best programming language in the world ?"],
+  [1, "C"],
+  [2, "java"],
+  [3, "Javascript"],
+  ["correct", 3],
+  [true, "Correct answer ! :D"],
+  [false, "Wrong answer... Try again !"],
+]);
+
+// Convert objects to maps :
+
+const openingHoursMap = new Map(Object.entries(openingHours));
+
+console.log(openingHoursMap);
+
+// Loop over maps :
+// -----------------
+
+// Qui app :
+console.log(question.get("question"));
+// Ex : only print an element if the key is a number :
+for (const [key, value] of question) {
+  console.log(typeof key === "number" ? `Answer ${key} : ${value}` : "");
+}
+
+// const answer = Number(prompt("Enter answer 1, 2 or 3"));
+
+// console.log(
+//   Number(answer) === question.get("correct")
+//     ? question.get(true)
+//     : question.get(false)
+// );
+
+// console.log(question.get(answer === question.get("correct")));
+
+// sometime we need to convert a map back into an array :
+
+// convert map to array :
+
+console.log([...question]);
