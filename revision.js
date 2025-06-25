@@ -442,3 +442,25 @@ const users = [
   },
 ];
 console.log(users[0]?.name ?? "User array empty");
+
+// Looping Objects: Object Keys, Values, and Entries :
+// --------------------------------------------------
+
+// looping over proprety names with Object.key :
+
+for (const day of Object.keys(restaurant.openingHours)) console.log(day);
+
+// looping over values with Objects.values():
+
+for (const value of Object.values(restaurant.openingHours)) console.log(value);
+
+// using destructuring to get the exact opening and closed values :
+for (const { open, close } of Object.values(restaurant.openingHours))
+  console.log(open, close);
+
+// Loop over key and values combined with Object.entries() :
+
+const entries = Object.entries(restaurant.openingHours);
+
+for (const [key, { open, close }] of entries)
+  console.log(`On ${key} we open at ${open} and we close at ${close}`);
