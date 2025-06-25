@@ -566,3 +566,71 @@ console.log(uniqueItalianAndMexican);
 const isDiff = mexicanFoods.isDisjointFrom(italianFoods);
 
 console.log(isDiff);
+
+// Maps : fundamentals
+
+// maps  -> data structure used to map values to keys just like object data is stored in key/value pairs:
+
+// the biggest difference between maps and objects : in maps Keys can have any data type
+
+const restMap = new Map(); // easiest way of creating a new map : first empty map
+restMap.set("name", "Classico Italiano"); //add new element
+
+restMap.set(1, "Firenze,Italy"); //using number as key
+restMap.set(2, "Lisbon,Portugal");
+
+//Set method returns the updated map important to know because it allows us to  'chain' the set methods
+// example :
+
+restMap
+  .set("categories", ["Italian", "Pizzeria", "Vegetarian", "Organic"])
+  .set("open", 11)
+  .set("close", 23)
+  .set(true, "we are open")
+  .set(false, "We are closed");
+console.log(restMap);
+
+// To read data from a map we use the get method :
+
+// console.log(restMap.get(true)); // -> use key as parameter to get the value
+
+const time = 21;
+
+console.log(
+  restMap.get(time > restMap.get("open") && time < restMap.get("close"))
+);
+
+//has() :  Searching for a certain key in a map returned value will be a boolean
+
+console.log(restMap.has("open")); // parameter to pass in the function is the key
+
+// delete(): delete an element by passing the key as paremeter
+restMap.delete(false);
+console.log(restMap);
+
+// size proprety
+console.log(restMap.size); // -> output will be 7
+
+// clear() : remove all elements inside a map
+restMap.clear();
+
+// Array as key :
+// -------------
+restMap.set([1, 2], "Test");
+
+console.log(restMap.get([1, 2])); // Returned value will be undefined the array key used and the array that i passed as parameter are not pointing to the same adress in the heap so for javascript i try to acces a proprety that doesn't exist so it returns undefined
+
+// Here we could face a problem if we try to find the value juste by passing an array [1,2] because de key thats used in the map is not the same as the one we use with the .get([1,2]) they point in a different location in the memory heap, so if i xant to use an array as key it's better to store the array in a variable and then use the variable as key :
+
+const testMap = new Map();
+
+const arrKey = [1, 2];
+testMap.set(arrKey, "Test");
+
+console.log(testMap.get(arrKey));
+
+// having keys with any data types can be usefull for dom element who are also objects :
+
+testMap.set(document.querySelector("h1"), "test");
+
+console.log(testMap);
