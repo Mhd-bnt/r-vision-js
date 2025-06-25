@@ -464,3 +464,51 @@ const entries = Object.entries(restaurant.openingHours);
 
 for (const [key, { open, close }] of entries)
   console.log(`On ${key} we open at ${open} and we close at ${close}`);
+
+// Sets:
+// -----
+
+// Collection of unique values a set can not have duplicates :
+
+const medSet = new Set(["js", "html", "figo", "figo", "foot", "foot"]); // as parameter we need to pass in a iterable  (array)
+
+console.log(medSet);
+
+// Getting size of a set : .size
+console.log(medSet.size);
+
+// Verifiying if a element is inside a set : has()
+console.log(medSet.has("figo"));
+
+// Add a new element to a set :  add()
+console.log(medSet.add("chat"));
+
+// we can delete element from a set : delete()
+
+console.log(medSet.delete("chat"));
+console.log(medSet);
+
+// we can delete all elements inside a set : .clear()
+// medSet.clear();
+// console.log(medSet);
+// how to retrieve data and take them out from a set  ? we have no way of doing it since in sets we have no index's,
+
+// but what we could do is using the spread operator to transform a set into an array after removing all duplicates
+
+// since set are iterable we can loop over them ! :
+
+for (const item of medSet) console.log(item);
+
+// Big use case for sets :
+
+// Main use case for sets is to remove duplicate values from arrays
+
+// Example
+
+const staff = ["Waiter", "Chef", "Waiter", "Manager", "Chef", "Waiter"];
+
+// We just want to know how many différent position they are
+
+const staffUnique = [...new Set(staff)];
+
+console.log(staffUnique);
