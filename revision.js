@@ -512,3 +512,57 @@ const staff = ["Waiter", "Chef", "Waiter", "Manager", "Chef", "Waiter"];
 const staffUnique = [...new Set(staff)];
 
 console.log(staffUnique);
+
+// New Operations to Make Sets Useful :
+// -----------------------------------
+
+const italianFoods = new Set([
+  "pasta",
+  "gnocchi",
+  "tomatoes",
+  "olive oil",
+  "garlic",
+  "basil",
+]);
+
+const mexicanFoods = new Set([
+  "tortillas",
+  "beans",
+  "rice",
+  "tomatoes",
+  "avocado",
+  "garlic",
+]);
+
+// some new set methods :
+
+// intersection() : finds values that are similar to 2 sets
+
+const commonFoods = italianFoods.intersection(mexicanFoods);
+console.log([...commonFoods]);
+
+// commun task to verify if one or many elements are common between 2 arrays so with intersection method it's much easier
+
+// union() : 'joins' two sets together to create one set with unique values and removing the duplicates
+
+const mexItaUnion = italianFoods.union(mexicanFoods);
+
+console.log(mexItaUnion);
+
+// difference() : compare 2 sets and add shows the values that are différente from the first set compared to the set we put as parameter
+
+const diffFood = mexicanFoods.difference(italianFoods);
+
+console.log(diffFood);
+
+// symmetricDifference():  Takes the values that are not present in both sets and creates a new set with it
+
+const uniqueItalianAndMexican = italianFoods.symmetricDifference(mexicanFoods);
+
+console.log(uniqueItalianAndMexican);
+
+// isDisjointFrom():  verify if a set is totally different from another set (no value in common between 2 sets) -> return a boolean
+
+const isDiff = mexicanFoods.isDisjointFrom(italianFoods);
+
+console.log(isDiff);
