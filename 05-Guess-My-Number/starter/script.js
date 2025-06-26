@@ -69,11 +69,20 @@ btn.addEventListener('click', () => {
   // function inside the addEventlistener is called an event handler
   const guess = Number(document.querySelector('.guess').value);
   console.log(secretNumber);
-
+  // when there is no input :
   if (!guess) {
     document.querySelector('.message').textContent = 'No number ⛔️';
+
+    //When player win :
   } else if (guess === secretNumber) {
     document.querySelector('.message').textContent = 'Correct Number 🎉!';
+
+    document.querySelector('body').style.backgroundColor = '#60b347';
+    document.querySelector('.number').style.width = '30rem';
+    // Current Highscore :
+    let highScore = score;
+    document.querySelector('.highscore').textContent = highScore;
+    //when guess is to heigh :
   } else if (guess > secretNumber) {
     document.querySelector('.message').textContent = `${guess} is too high 📈`;
     score > 1
@@ -82,6 +91,8 @@ btn.addEventListener('click', () => {
           '.message'
         ).textContent = `you lost the Game 😾 !`);
     document.querySelector('.score').textContent = score;
+
+    // when guess is to low:
   } else if (guess < secretNumber) {
     document.querySelector('.message').textContent = `${guess} is too low 📉`;
     score > 1
@@ -96,6 +107,11 @@ btn.addEventListener('click', () => {
 // -----------------------------
 // Manipulating CSS Styles
 // ---------------------------
+
+// Body turns green when guess is correct :
+
+// document.querySelector('body').style.backgroundColor = '#60b347';
+// document.querySelector('.number').style.width = '30rem';
 
 // //the style added with javaScript will be added as inline style //
 
