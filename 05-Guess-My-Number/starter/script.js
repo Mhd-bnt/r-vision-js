@@ -61,7 +61,6 @@
 const secretNumber = Math.trunc(Math.random() * 20) + 1;
 let score = 20;
 document.querySelector('.score').textContent = score;
-// document.querySelector('.number').textContent = secretNumber;
 
 const btn = document.querySelector('.btn.check');
 
@@ -76,7 +75,10 @@ btn.addEventListener('click', () => {
     //When player win :
   } else if (guess === secretNumber) {
     document.querySelector('.message').textContent = 'Correct Number 🎉!';
+    //display secret number when guess is correct : :
+    document.querySelector('.number').textContent = secretNumber;
 
+    //Front changes :
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
     // Current Highscore :
@@ -116,7 +118,25 @@ btn.addEventListener('click', () => {
 // //the style added with javaScript will be added as inline style //
 
 // // ------------RESET BUTTON ----------
+const againBtn = document.querySelector('.again');
 
+againBtn.addEventListener('click', () => {
+  // Reseting highscore counter :
+  score = 20;
+  // Reseting secret number :
+  const secretNumber = Math.trunc(Math.random() * 20) + 1;
+
+  //Reseting frontend styles
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').style.width = '15rem';
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.message').textContent = 'Start guessing...';
+
+  // Reseting Score frontend :
+  document.querySelector('.score').textContent = score;
+  // reseting input field :
+  document.querySelector('.guess').value = '';
+});
 // ---------------------------------
 
 // ---------------------------
