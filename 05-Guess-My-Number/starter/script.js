@@ -58,8 +58,9 @@
 // const secretNumber = Math.trunc(Math.random() * 20) + 1;
 // We create the random number before the eventListener and not inside because if we put it inside we will recreate on each click a new random number and thats not what we want
 
-const secretNumber = Math.trunc(Math.random() * 20) + 1;
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
 let score = 20;
+let highScore = 0;
 document.querySelector('.score').textContent = score;
 
 const btn = document.querySelector('.btn.check');
@@ -82,7 +83,7 @@ btn.addEventListener('click', () => {
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
     // Current Highscore :
-    let highScore = score;
+    score > highScore ? (highScore = score) : highScore;
     document.querySelector('.highscore').textContent = highScore;
     //when guess is to heigh :
   } else if (guess > secretNumber) {
@@ -124,7 +125,7 @@ againBtn.addEventListener('click', () => {
   // Reseting highscore counter :
   score = 20;
   // Reseting secret number :
-  const secretNumber = Math.trunc(Math.random() * 20) + 1;
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
 
   //Reseting frontend styles
   document.querySelector('body').style.backgroundColor = '#222';
