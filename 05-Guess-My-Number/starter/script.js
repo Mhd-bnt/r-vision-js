@@ -36,17 +36,17 @@
 
 // In order to listen for events we first need to select the element where the event should happen
 
-const btn = document.querySelector('.btn.check');
+// const btn = document.querySelector('.btn.check');
 
-btn.addEventListener('click', () => {
-  // function inside the addEventlistener is called an event handler
-  const guess = Number(document.querySelector('.guess').value);
-  console.log(guess);
+// btn.addEventListener('click', () => {
+//   // function inside the addEventlistener is called an event handler
+//   const guess = Number(document.querySelector('.guess').value);
+//   console.log(guess);
 
-  if (!guess) {
-    document.querySelector('.message').textContent = 'No number ⛔️';
-  }
-});
+//   if (!guess) {
+//     document.querySelector('.message').textContent = 'No number ⛔️';
+//   }
+// });
 // ----------------------------
 // Implementing the Game Logic
 // ----------------------------
@@ -58,7 +58,42 @@ btn.addEventListener('click', () => {
 // const secretNumber = Math.trunc(Math.random() * 20) + 1;
 // We create the random number before the eventListener and not inside because if we put it inside we will recreate on each click a new random number and thats not what we want
 
-// ---------------------------
+const secretNumber = Math.trunc(Math.random() * 20) + 1;
+let score = 20;
+document.querySelector('.score').textContent = score;
+// document.querySelector('.number').textContent = secretNumber;
+
+const btn = document.querySelector('.btn.check');
+
+btn.addEventListener('click', () => {
+  // function inside the addEventlistener is called an event handler
+  const guess = Number(document.querySelector('.guess').value);
+  console.log(secretNumber);
+
+  if (!guess) {
+    document.querySelector('.message').textContent = 'No number ⛔️';
+  } else if (guess === secretNumber) {
+    document.querySelector('.message').textContent = 'Correct Number 🎉!';
+  } else if (guess > secretNumber) {
+    document.querySelector('.message').textContent = `${guess} is too high 📈`;
+    score > 1
+      ? score--
+      : (document.querySelector(
+          '.message'
+        ).textContent = `you lost the Game 😾 !`);
+    document.querySelector('.score').textContent = score;
+  } else if (guess < secretNumber) {
+    document.querySelector('.message').textContent = `${guess} is too low 📉`;
+    score > 1
+      ? score--
+      : (document.querySelector(
+          '.message'
+        ).textContent = `you lost the Game 😾 !`);
+    document.querySelector('.score').textContent = score;
+  }
+});
+
+// -----------------------------
 // Manipulating CSS Styles
 // ---------------------------
 
