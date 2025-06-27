@@ -24,3 +24,18 @@ for (const btn of btnOpenModal) {
 btnCloseModal.addEventListener('click', closeModal); // No parenthesis  here !!! js would call the function immediatly if we do that !!!!
 
 overlay.addEventListener('click', closeModal);
+
+// Handling an ESC keypress event
+// ------------------------------
+
+document.addEventListener('keydown', e => {
+  // event creates an object and we can look at that object when we pass a paremeter in the handler function
+
+  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+    closeModal();
+  }
+}); //3 types of event for keys = key down  || key press   || key up
+
+// keyup : lift finger up the keyboard
+// keydown : press down a key
+// keypress:keeps executing while finger presses a key
