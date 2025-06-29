@@ -39,7 +39,6 @@ const restaurant = {
       close: 24,
     },
   },
-
 };
 
 //  Looping Arrays: The for-of Loop
@@ -830,5 +829,5 @@ for (const flight of flights.split("+")) {
   console.log(output);
 }
 
-// 134. How Passing Arguments Works: Value vs. Reference
-// -------------------------------------------------------
+// Working With Strings - Part 1 :
+// --------------------------------

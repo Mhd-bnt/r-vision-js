@@ -659,7 +659,7 @@ console.log(openingHoursMap);
 // Loop over maps :
 // -----------------
 
-// Qui app :
+// Quizz app :
 console.log(question.get("question"));
 // Ex : only print an element if the key is a number :
 for (const [key, value] of question) {
@@ -681,3 +681,144 @@ for (const [key, value] of question) {
 // convert map to array :
 
 console.log([...question]);
+
+// Working With Strings - Part 1 :
+// --------------------------------
+console.log("--- Working With Strings---");
+const airline = "TAP Air Portugal";
+
+const plane = "A320";
+
+console.log(airline.length);
+console.log("B737".length);
+
+// String methods :
+
+// indexOf() : gives the position of the letter i pass as paremeter in the string
+
+console.log(airline.indexOf("r")); //=> give first occurence
+console.log(airline.lastIndexOf("r")); //=> give last occurence
+console.log(airline.indexOf("Portugal")); //we can look for entire words (give the index where the word starts) !! Case sensetive !!
+
+// What can we do with this indexes and why are they usefull ? 1 use case extracting parts with slice() method :
+
+// slice() : extracting parts of a string (slice method need index as arguments)
+
+console.log(airline.slice(8)); // -> output will be portugal
+
+// the first parameter we use in the slice method is the begin parameter the extraction starts at index 8 in this example, but can add an end parameter :
+
+console.log(airline.slice(8, 11)); // output will be Por the end parameter is not inculed like the begin parameter !!!
+// side note : the length of th extracted substring will be end parameter - begin parameter
+
+// the extracted part is called a substring
+
+console.log(airline.slice(0, airline.indexOf(" ")));
+
+// Extracting the last word exercices :
+
+console.log(airline.slice(airline.lastIndexOf(" ") + 1));
+
+// negative begin parameter will start extracting from the end :
+
+console.log(airline.slice(-1)); //=> output will be l
+console.log(airline.slice(1, -1)); //=> output will be  = AP Air Portuga
+
+const checkMiddleSeat = (seat) => {
+  // B and E are middle seat
+  const isMiddleSeat = seat.slice(-1);
+  console.log(
+    isMiddleSeat === "E" || isMiddleSeat === "B"
+      ? "You have a middle seat !"
+      : "You don't have a middle seat"
+  );
+};
+
+checkMiddleSeat("11B");
+checkMiddleSeat("23C");
+checkMiddleSeat("3E");
+
+// ----------------------------------------------------------------------------------------------------------------------------
+// How does it work ?  String are just primitive values why do they have methods ? mehtods are only avaible on objects
+
+// Js engine turns the string primitive into a string objects  ( process is called boxing)
+
+// what javascript does is to call the new String() method on a string to turn them into a string object :
+
+// when the operation is done string object is turned back to string primitive
+
+// -----------------------------------------------------------------------------------------------------------------------------
+
+console.log(new String("Mehdi"));
+console.log(typeof new String("Mehdi")); // ouput will be : object
+
+// Working With Strings - Part 2 :
+
+// toLowerCase():
+
+console.log(airline.toLowerCase());
+
+// toUpperCase():
+
+console.log(airline.toUpperCase());
+
+// Fix capitalization in name :
+
+const passenger = "MehDI";
+
+const nameLower =
+  passenger.slice(0, 1).toUpperCase() + passenger.slice(1).toLowerCase();
+
+console.log(nameLower);
+
+// comparing email :
+const email = "hello@jonas.io";
+
+const loginEmail = "  Hello@Jonas.Io  \n";
+
+const loginEmailCorrect = loginEmail.toLowerCase().trim();
+console.log(loginEmailCorrect);
+console.log(email === loginEmailCorrect);
+
+// replace part of string  :
+
+const priceUS = "288,97$";
+
+const priceEU = priceUS.replace("$", "€").replace(",", ".");
+
+console.log(priceEU);
+
+const annoucement =
+  "All passengers come to boarding door 23.Boarding door 23! ";
+
+// replace door -> gate
+
+console.log(annoucement.replaceAll("door", "gate"));
+console.log(annoucement.replace(/door/g, "gate")); // -> using regular expression to target all occurence for door
+
+// 3 string methods that return booleans :
+// ---------------------------------------
+
+// includes():
+const plane1 = "Airbus A320neo";
+
+console.log(plane1.includes("A320")); // output will be true
+console.log(plane1.includes("Boeing")); // output will be false
+// startsWith( :
+console.log(plane1.startsWith("Air"));
+// endsWith():
+
+if (plane1.startsWith("Airbus") && plane1.endsWith("neo")) {
+  console.log("Part of the new airbus familly ");
+}
+
+const checkBaggage = (items) => {
+  const itemLower = items.toLowerCase();
+  itemLower.includes("knife") || itemLower.includes("gun")
+    ? console.log("You are not allowed in 🚫")
+    : console.log(`You are welcome ✅ `);
+};
+
+checkBaggage("I have a laptop, some Food and a pocket Knife");
+checkBaggage("Socks and camera");
+checkBaggage("Got some snacks and a gun for protection");
