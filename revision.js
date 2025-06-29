@@ -822,3 +822,61 @@ const checkBaggage = (items) => {
 checkBaggage("I have a laptop, some Food and a pocket Knife");
 checkBaggage("Socks and camera");
 checkBaggage("Got some snacks and a gun for protection");
+
+// String methods part 3 :
+
+// split() : split a string into multiple parts based on a divider string
+
+console.log("a+very+nice+string".split("+")); // return an array : ['a', 'very', 'nice', 'string']
+console.log("Figo Luis".split(" "));
+
+const [firstName, lastName] = "Figo Luis".split(" "); // combining destructuring with split
+
+console.log(firstName, lastName);
+
+// join() : opposite of split() bring element of an array together
+
+console.log(["Mrs", firstName, lastName].join(" ")); // output will be  : Mrs Figo Luis
+
+const passenger0 = "jada ann smith davies";
+
+const capName = (name) => {
+  const nameArr = name.split(" ");
+  let arrName = [];
+  for (const nameEl of nameArr) {
+    arrName.push(nameEl[0].toUpperCase() + nameEl.slice(1));
+  }
+  console.log(arrName.join(" "));
+};
+
+capName(passenger0);
+
+// padEnd() and padStart() : Adds a number of caracters until it has a desired length
+
+const message = "Go to gate 23";
+
+console.log(message.padStart(18, "-").padEnd(23, "-")); //first argument the total length || second argument the element we want to add to get to the total desired length
+
+// first argument expects an length
+
+const maskCreditCard = (cardNumber) => {
+  const lastNum = cardNumber.slice(-4);
+  const masked = lastNum.padStart(cardNumber.length, "*");
+  console.log(masked);
+};
+
+maskCreditCard("07071993");
+
+// repeat() method : Allows to repeat a sting multiple times :
+
+const message2 = "Bad weather... All departures Delayed... \n";
+
+console.log(message2.repeat(5)); // repeats the string 5 times
+
+const planesInLine = (n) => {
+  console.log(`There are ${n} planes waiting in line ${"✈️".repeat(n)}`);
+};
+
+planesInLine(3);
+planesInLine(4);
+planesInLine(5);
