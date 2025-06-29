@@ -71,7 +71,7 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
@@ -136,3 +136,33 @@ console.log(arr1.slice(-1)[0]);
 // other way of doing it with at() :
 
 console.log(arr1.at(-1));
+
+// Looping with forEach() :
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// Loping with for of loop :
+
+// for (const movement of movements) {
+for (const [i, movement] of movements.entries()) {
+  if (movement > 0) {
+    console.log(`${i}: You deposited  ${movement}`);
+  } else console.log(`${i}:  You withdrew ${Math.abs(movement)}`); //math.abs() method removes the - sign
+}
+
+// with forEach():
+
+movements.forEach((movement, i, array) => {
+  if (movement > 0) {
+    console.log(`Mouvement number ${i} : You deposited ${movement}`);
+  } else
+    console.log(`Mouvement number ${i} : You withdrew ${Math.abs(movement)}`);
+}); //(forEach needs a callback function) \\ Higher order function -- its the forEach method that    will can the callback function
+
+// forEach passes in the current element the index and the entire array we are looping :
+// we can specify them with the name we want it doesn't matter but whats matter is the order !
+
+// first the Element
+// second the index
+// third the entire array
+
+// main difference between the 2 is that we can not break free from an forEach loop and the continue statement doesn't work too
