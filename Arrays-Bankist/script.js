@@ -116,3 +116,23 @@ console.log(letters); // 'fusion' betwen 2 arrays:
 // Join() mehtod:
 
 console.log(letters.join('-')); // joins an array with the divider string specified as parameter output : a-b-c-d-f-e-d-c-b-a
+
+// At() method ;
+// ------------
+
+const arr1 = [23, 11, 64];
+
+console.log(arr1[0]); // traditional way to find an element in an array
+
+console.log(arr1.at(0)); // will give the same output of 23
+
+// Imagine we want the last element of an array without knowing it length :
+// we would do it like this :
+
+console.log(arr1[arr1.length - 1]);
+// or
+console.log(arr1.slice(-1)[0]);
+
+// other way of doing it with at() :
+
+console.log(arr1.at(-1));
