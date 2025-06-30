@@ -880,3 +880,119 @@ const planesInLine = (n) => {
 planesInLine(3);
 planesInLine(4);
 planesInLine(5);
+
+// Bankist app :
+
+// let arr = ["a", "b", "c", "d", "e"];
+
+// // New array methods for array :
+
+// // slice(): extract part of an array without modifiying initial array :
+
+// console.log(arr.slice(2)); // returns new arr but don't mutate the original array
+// console.log(arr.slice(2, 4)); // we can also define end parameter (end parameter like strings is not incuded)
+// console.log(arr.slice(-2)); // will start extracting from the end with negative begin parameter
+// console.log(arr.slice(1, -2)); // extract at index 1 and then from the end at -2 is included
+// console.log(arr.slice(0, -1)); // extract at index 1 and then from the end at -1 is included
+
+// // can use slice() to create shallow copy :
+
+// console.log(arr.slice()); //it can be more interesting to use slice to create shloow copy's since we can chain method compared to the spread operator
+
+// // SPLICE(): Works like the slice method but the ≠ is that splice mutates the original array (Mutate original array)
+
+// // console.log(arr.splice(2)); // we extracted ['c', 'd', 'e']
+// // console.log(arr); // but the original array was mutated and returns ['a', 'b']
+
+// arr.splice(-1); //start extraction from the end like slice
+// console.log(arr); // returns ['a', 'b', 'c', 'd'];
+
+// // REVERSE : for reversing an array (Mutate original array)
+
+// arr = ["a", "b", "c", "d"];
+// let arr2 = ["a", "b", "c", "d", "e", "f"];
+
+// console.log(arr2.reverse()); // output will be ['f', 'e', 'd', 'c', 'b', 'a'] !! the reverse() method mutates the original array
+
+// console.log(arr2);
+
+// // CONCAT method : !! Don't mutate the existing array
+
+// const letters = arr.concat(arr2);
+// console.log(letters); // 'fusion' betwen 2 arrays:
+
+// // Join() mehtod:
+
+// console.log(letters.join("-")); // joins an array with the divider string specified as parameter output : a-b-c-d-f-e-d-c-b-a
+
+// // At() method ;
+// // ------------
+
+// const arr1 = [23, 11, 64];
+
+// console.log(arr1[0]); // traditional way to find an element in an array
+
+// console.log(arr1.at(0)); // will give the same output of 23
+
+// // Imagine we want the last element of an array without knowing it length :
+// // we would do it like this :
+
+// console.log(arr1[arr1.length - 1]);
+// // or
+// console.log(arr1.slice(-1)[0]);
+
+// // other way of doing it with at() :
+
+// console.log(arr1.at(-1));
+
+// // Looping with forEach() :
+
+// // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// // Loping with for of loop :
+
+// // for (const movement of movements) {
+// for (const [i, movement] of movements.entries()) {
+//   if (movement > 0) {
+//     console.log(`${i}: You deposited  ${movement}`);
+//   } else console.log(`${i}:  You withdrew ${Math.abs(movement)}`); //math.abs() method removes the - sign
+// }
+
+// // with forEach():
+
+// movements.forEach((movement, i, array) => {
+//   if (movement > 0) {
+//     console.log(`Mouvement number ${i} : You deposited ${movement}`);
+//   } else
+//     console.log(`Mouvement number ${i} : You withdrew ${Math.abs(movement)}`);
+// }); //(forEach needs a callback function) \\ Higher order function -- its the forEach method that    will can the callback function
+
+// // forEach passes in the current element the index and the entire array we are looping :
+// // we can specify them with the name we want it doesn't matter but whats matter is the order !
+
+// // first the Element
+// // second the index
+// // third the entire array
+
+// // main difference between the 2 is that we can not break free from an forEach loop and the continue statement doesn't work too
+
+// // ---------------------------
+// // ForEach with maps and sets :
+// // ---------------------------
+
+// const currencies = new Map([
+//   ["USD", "United States dollar"],
+//   ["EUR", "Euro"],
+//   ["GBP", "Pound sterling"],
+// ]);
+
+// currencies.forEach((value, key, map) => {
+//   console.log(key, value);
+// });
+
+// const currenciesSet = new Set(["USD", "GBP", "USD", "EUR", "EUR"]);
+// console.log(currenciesSet);
+
+// currenciesSet.entries().forEach((value, key) => {
+//   //set doesn't have keys and no index either
+//   console.log(`${key} : ${value[0]}`);
+// });
