@@ -34,6 +34,7 @@ const account4 = {
 };
 
 const accounts = [account1, account2, account3, account4];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -65,11 +66,11 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
 
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -139,7 +140,7 @@ console.log(arr1.at(-1));
 
 // Looping with forEach() :
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // Loping with for of loop :
 
 // for (const movement of movements) {
@@ -166,3 +167,25 @@ movements.forEach((movement, i, array) => {
 // third the entire array
 
 // main difference between the 2 is that we can not break free from an forEach loop and the continue statement doesn't work too
+
+// ---------------------------
+// ForEach with maps and sets :
+// ---------------------------
+
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+currencies.forEach((value, key, map) => {
+  console.log(key, value);
+});
+
+const currenciesSet = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesSet);
+
+currenciesSet.entries().forEach((value, key) => {
+  //set doesn't have keys and no index either
+  console.log(`${key} : ${value[0]}`);
+});
