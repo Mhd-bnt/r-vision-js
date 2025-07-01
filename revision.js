@@ -996,3 +996,30 @@ planesInLine(5);
 //   //set doesn't have keys and no index either
 //   console.log(`${key} : ${value[0]}`);
 // });
+
+// Data Transformations: map, filter, reduce
+
+// Map() method  :
+// ----------------
+
+// take in as parameter an other array loops over the given array and  apply on it a callback function and returns the result into an new array :
+// we say that it maps the value of the original array to a new array
+const arrTest = [3, 1, 4, 3, 2];
+
+const arrMult = arrTest.map((value) => {
+  return value * 2;
+});
+
+console.log(arrMult);
+
+// filter() method :
+// ----------------
+
+// returns a new array containing the array elements that passed a specified test condition
+
+// reduce() method :
+// -----------------
+
+// reduce 'boils' (reduces) all array elements down to one single value adding all elements together
+
+// accumulator variable (like starting counter) + current array value; || we don't get an array back but only a reduced value (acc+current array element cumulited)
