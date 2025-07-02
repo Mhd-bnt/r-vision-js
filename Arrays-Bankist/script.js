@@ -87,7 +87,7 @@ movements.forEach((move, i) => {
           <div class="movements__type movements__type--${type}">${
     i + 1
   } ${type}</div>
-          <div class="movements__value">${move}</div>
+          <div class="movements__value">${move} €</div>
         </div>`;
 
   containerMovements.insertAdjacentHTML('afterbegin', html); //afterbegin // adds my new elements just at the beginning of the parent container
@@ -97,6 +97,27 @@ movements.forEach((move, i) => {
 // beforeBegin // ads new element before the targeted 'container'
 // afterend  // ads new element after (outside) the targeted 'container'
 displayMovements(account1.movements);
+// -------------------------------------------------------------------
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes} €`;
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)} €`; // Math.abs() takes the absolut value and removes - sign
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(mov => (mov * 1.2) / 100)
+    .filter(mov => mov >= 1) //bank adds new rule : if intereset is below 1EURO he will not be added to the    total calculation
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumInterest.textContent = `${interest} €`;
+};
+
+calcDisplaySummary(account1.movements);
 // -------------------------------------------------------------------
 const createUsernames = function (accs) {
   accs.forEach(acc => {
@@ -261,24 +282,64 @@ console.log(minValue);
 
 // GOOD LUCK 😀
 
-const calcAverageHumanAge = function (ages) {
-  const humanAge = ages.map(
-    dogAge => (dogAge <= 2 ? 2 * dogAge : 16 + dogAge * 4) //returned array
-  );
-  console.log(humanAge); //converted into human age array
+// const calcAverageHumanAge = function (ages) {
+//   const humanAge = ages.map(
+//     dogAge => (dogAge <= 2 ? 2 * dogAge : 16 + dogAge * 4) //returned array
+//   );
+//   console.log(humanAge); //converted into human age array
 
-  const majorityArr = humanAge.filter(dogAge => {
-    if (dogAge >= 18) return dogAge;
-  });
-  console.log(majorityArr); // only >= 18 humanAges in this array
+//   const majorityArr = humanAge.filter(dogAge => {
+//     if (dogAge >= 18) return dogAge;
+//   });
+//   console.log(majorityArr); // only >= 18 humanAges in this array
 
-  const averageHumanAge = majorityArr.reduce(
-    (acc, age, i, arr) => acc + age / arr.length,
-    0
-  );
+//   const averageHumanAge = majorityArr.reduce(
+//     (acc, age, i, arr) => acc + age / arr.length,
+//     0
+//   );
 
-  console.log(averageHumanAge);
+//   console.log(averageHumanAge);
+// };
+
+// calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+// calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
+// Chaining methods :
+// ------------------
+// taking deposits from movements array || than convert from eur ->dollar and add them all together;
+
+const euroToUsd = 1.1;
+
+const totalDepositUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * euroToUsd)
+  .reduce((acc, mov) => acc + mov, 0); //filter method returns an array so we can directly call the map method on it
+
+console.log(totalDepositUSD);
+
+// Coding Challenge #3
+
+// Rewrite the 'calcAverageHumanAge' function from Challenge #2, but this time
+// as an arrow function, and using chaining!
+const calcAverageHumanAge = ages => {
+  const humanAge = ages
+    .map(
+      dogAge => (dogAge <= 2 ? 2 * dogAge : 16 + dogAge * 4) //returned array
+    )
+    .filter(dogAge => {
+      if (dogAge >= 18) return dogAge;
+    })
+    .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+  return humanAge;
 };
 
-calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
-calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+
+// Test data:
+// § Data 1: [5, 2, 4, 1, 15, 8, 3]
+// § Data 2: [16, 6, 10, 5, 6, 1, 4]
+
+// GOOD LUCK 😀
+
+// Find method :
