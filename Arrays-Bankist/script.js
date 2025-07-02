@@ -193,6 +193,29 @@ btnTransfer.addEventListener('click', e => {
 });
 
 // -------------------------------------------------------------------
+// closing account :
+btnClose.addEventListener('click', e => {
+  e.preventDefault();
+  // console.log(e);
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    // console.log('account will be closed');
+    const index = accounts.findIndex(
+      // it works like the find method expect that it returns the index of the element who satisfy the confition
+      acc => acc.username === currentAccount.username
+    );
+    //deleteaccount
+    accounts.splice(index, 1);
+    //Hide UI
+    containerApp.style.opacity = 0;
+    console.log(accounts);
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+});
+// indexof would not work here because it will only search for the elements inside the accounts array with findInex we can go deep into condition and even compare proprety inside the object
+// -------------------------------------------------------------------
 // --------------
 // map() method :
 // --------------
@@ -415,3 +438,20 @@ const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 // for (const account of accounts) {
 //   if (account.owner === 'Jessica Davis') account;
 // }
+
+// findLast() and findLastIndex() :
+
+console.log(movements);
+
+const lastWithdrawal = movements.findLast(mov => mov < 0); //finlast() starts looking from the end of the array
+
+// console.log(lastWithdrawal);
+const latestLargeMovementIndex = movements.findLastIndex(
+  mov => Math.abs(mov) > 1000 //return an index
+);
+
+console.log(
+  `Your latest large movement was ${
+    movements.length - latestLargeMovementIndex - 1
+  } movements ago`
+);
