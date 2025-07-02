@@ -343,3 +343,21 @@ console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 // GOOD LUCK 😀
 
 // Find method :
+// ------------
+// Allows us to find an element from an array based on an condition
+
+const firstwithdrawal = movements.find(mov => mov < 0); // just like the filter method the find method need a callback function that returns a boolean|| the differnece is that the find method don't return an array instead it returns the first element of the array that satifay the condition
+
+console.log(firstwithdrawal);
+
+// with the find method we can find an object in the accounts array based on some proprety
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+
+console.log(account);
+
+// find account but with the for of loop :
+
+for (const account of accounts) {
+  if (account.owner === 'Jessica Davis') account;
+}
