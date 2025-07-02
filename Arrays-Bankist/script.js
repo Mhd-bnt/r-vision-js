@@ -66,7 +66,14 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-
+const updateUI = currentAccount => {
+  // display movements
+  displayMovements(currentAccount.movements);
+  // display balance
+  calcDisplayBalance(currentAccount);
+  // display summary
+  calcDisplaySummary(currentAccount);
+};
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
@@ -77,47 +84,46 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 ///////////////////////////////////////////////////////////
 // now we need to attach this html element to the movement container element :
-const displayMovements = function (movements) {};
-
-containerMovements.innerHTML = ''; // a little bit similaire to .textContent \\ textContent returns the text itself
-//innerHtml returnsevery html elemnt
-movements.forEach((move, i) => {
-  const type = move > 0 ? 'deposit' : 'withdrawal';
-  const html = `<div class="movements__row">
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = ''; // a little bit similaire to .textContent \\ textContent returns the text itself
+  //innerHtml returnsevery html elemnt
+  movements.forEach((move, i) => {
+    const type = move > 0 ? 'deposit' : 'withdrawal';
+    const html = `<div class="movements__row">
           <div class="movements__type movements__type--${type}">${
-    i + 1
-  } ${type}</div>
+      i + 1
+    } ${type}</div>
           <div class="movements__value">${move} €</div>
         </div>`;
 
-  containerMovements.insertAdjacentHTML('afterbegin', html); //afterbegin // adds my new elements just at the beginning of the parent container
-});
+    containerMovements.insertAdjacentHTML('afterbegin', html); //afterbegin // adds my new elements just at the beginning of the parent container
+  });
+};
+
 // ParentElement.insertAdjacentHTML('where ? ','The element we want to insert');
 // beforeend // ads the new html element at the end of the parent element
 // beforeBegin // ads new element before the targeted 'container'
 // afterend  // ads new element after (outside) the targeted 'container'
-displayMovements(account1.movements);
 // -------------------------------------------------------------------
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes} €`;
 
-  const out = movements
+  const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)} €`; // Math.abs() takes the absolut value and removes - sign
 
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(mov => (mov * 1.2) / 100)
+    .map(mov => (mov * acc.interestRate) / 100)
     .filter(mov => mov >= 1) //bank adds new rule : if intereset is below 1EURO he will not be added to the    total calculation
     .reduce((acc, mov) => acc + mov, 0);
   labelSumInterest.textContent = `${interest} €`;
 };
 
-calcDisplaySummary(account1.movements);
 // -------------------------------------------------------------------
 const createUsernames = function (accs) {
   accs.forEach(acc => {
@@ -133,12 +139,60 @@ const createUsernames = function (accs) {
 
 createUsernames(accounts); // don't return a value but create a side effect
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+const calcDisplayBalance = function (acc) {
+  //calling with account object
 
-  labelBalance.textContent = `${balance} €`;
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance} €`;
 };
-calcDisplayBalance(account1.movements);
+// -------------------------------------------------------------------
+// Event handler functions :
+let currentAccount;
+btnLogin.addEventListener('click', e => {
+  //prevent forme from submtting because default behavior would make the page reload
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //added optionnal chaining (pin proprety will only be read if currentAcount exists) it avoid errors and we get an undifined if the account doesn't exist
+    // Display ui and message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    } `;
+    containerApp.style.opacity = 100;
+    // Clear input fields
+    inputLoginUsername.value = inputLoginPin.value = ''; //assignement operator works from right to left
+
+    inputLoginPin.blur(); //making the input field losing its focus
+  }
+  updateUI(currentAccount);
+  // console.log(currentAccount);
+});
+// -------------------------------------------------------------------
+btnTransfer.addEventListener('click', e => {
+  e.preventDefault(); //prevent the form to relaod
+  const amount = Number(inputTransferAmount.value);
+  const receiverAccount = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+  if (
+    amount > 0 &&
+    receiverAccount &&
+    currentAccount.balance >= amount &&
+    receiverAccount?.username !== currentAccount.username
+  ) {
+    console.log('Transfert valid');
+    currentAccount.movements.push(-amount);
+    receiverAccount.movements.push(amount);
+
+    // Updating ui
+    updateUI(currentAccount);
+  }
+});
+
+// -------------------------------------------------------------------
 // --------------
 // map() method :
 // --------------
@@ -188,23 +242,23 @@ const deposits = movements.filter(mov => {
   return mov > 0;
 });
 // The filter method returns an array :
-console.log(deposits);
+// console.log(deposits);
 
 const depositsArr = [];
 for (const mov of movements) {
   if (mov > 0) depositsArr.push(mov);
 }
-console.log(depositsArr);
+// console.log(depositsArr);
 
 // Challenge : create an array wit the withdrawal :
 
 const withdrawals = movements.filter(mov => mov < 0);
-console.log(withdrawals);
+// console.log(withdrawals);
 
 // -----------------
 // reduce() mehtod :
 // ----------------
-console.log('----reduce() mehtod----');
+// console.log('----reduce() mehtod----');
 // Reduce the elements of an array to a single value :
 
 // const balance = movements.reduce(); //balance here will be a single value not an entire array
@@ -214,13 +268,13 @@ console.log('----reduce() mehtod----');
 // map() and filter() method parameter are :  currentElement,currentIndex and the entire array
 // for the reduce() method() it's : Accumulator, currentElement,currentIndex and the entire array
 
-const balance = movements.reduce((acc, current, i, array) => {
-  //acc stands for the accumulator
-  console.log(`Itteration number ${i}: ${acc} `); //to see the updated value of the accumulator after each itteration
-  return acc + current; // for eeach iteration we update the accumulator
-}, 0);
+// const balance = movements.reduce((acc, current, i, array) => {
+//   //acc stands for the accumulator
+//   console.log(`Itteration number ${i}: ${acc} `); //to see the updated value of the accumulator after each itteration
+//   return acc + current; // for eeach iteration we update the accumulator
+// }, 0);
 
-console.log(balance);
+// console.log(balance);
 
 // the Callback function is the first paramater of the reduce method but we can add a second paramater that will be the accumulators initiaal value
 
@@ -233,7 +287,7 @@ for (const move of movements) {
   balance1 += move;
 }
 
-console.log(balance1);
+// console.log(balance1);
 
 // can also do other things with the reduce method :
 
@@ -245,7 +299,7 @@ const maxValue = movements.reduce(
   // i could use movements[0] fot the first accumulator value to be 100% sure
 );
 
-console.log(maxValue);
+// console.log(maxValue);
 
 // Want to get the minimum value of the movements array:
 
@@ -253,7 +307,7 @@ const minValue = movements.reduce(
   (acc, value) => (acc = acc < value ? acc : value),
   movements[0]
 );
-console.log(minValue);
+// console.log(minValue);
 
 // Coding Challenge #2
 
@@ -315,7 +369,7 @@ const totalDepositUSD = movements
   .map(mov => mov * euroToUsd)
   .reduce((acc, mov) => acc + mov, 0); //filter method returns an array so we can directly call the map method on it
 
-console.log(totalDepositUSD);
+// console.log(totalDepositUSD);
 
 // Coding Challenge #3
 
@@ -333,8 +387,8 @@ const calcAverageHumanAge = ages => {
   return humanAge;
 };
 
-console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
-console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+// console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+// console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 
 // Test data:
 // § Data 1: [5, 2, 4, 1, 15, 8, 3]
@@ -348,16 +402,16 @@ console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 
 const firstwithdrawal = movements.find(mov => mov < 0); // just like the filter method the find method need a callback function that returns a boolean|| the differnece is that the find method don't return an array instead it returns the first element of the array that satifay the condition
 
-console.log(firstwithdrawal);
+// console.log(firstwithdrawal);
 
 // with the find method we can find an object in the accounts array based on some proprety
 
 const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 
-console.log(account);
+// console.log(account);
 
 // find account but with the for of loop :
 
-for (const account of accounts) {
-  if (account.owner === 'Jessica Davis') account;
-}
+// for (const account of accounts) {
+//   if (account.owner === 'Jessica Davis') account;
+// }
