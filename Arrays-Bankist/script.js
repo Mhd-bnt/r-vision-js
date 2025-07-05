@@ -84,10 +84,11 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 ///////////////////////////////////////////////////////////
 // now we need to attach this html element to the movement container element :
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = ''; // a little bit similaire to .textContent \\ textContent returns the text itself
-  //innerHtml returnsevery html elemnt
-  movements.forEach((move, i) => {
+  //innerHtml returns every html elemnt
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  movs.forEach((move, i) => {
     const type = move > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class="movements__row">
           <div class="movements__type movements__type--${type}">${
@@ -233,6 +234,16 @@ btnLoan.addEventListener('click', e => {
   inputLoanAmount.value = '';
 });
 
+// -------------------------------------------------------------------
+let sorted = false; // state variable everytime we click on the sort button the state changes to the opposite
+
+btnSort.addEventListener('click', e => {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+  // we will use a state variable to 'monitor' the sort variable i s set to true or false :
+});
+//
 // -------------------------------------------------------------------
 // --------------
 // map() method :
@@ -810,3 +821,43 @@ const sumAllMovements = accounts
   .reduce((acc, mov) => acc + mov, 0);
 
 console.log(sumAllMovements);
+
+// Sorting method :
+// ---------------
+// with strings :
+
+const owners = ['Jonas', 'Zak', 'Adam', 'Marta'];
+
+console.log(owners.sort()); // !! Mutate the original array !!
+
+console.log(owners); // output will be : ['Adam', 'Jonas', 'Marta', 'Zak']
+
+// with numbers :
+
+const numArr = [12, 25, 4, 62, 41, 18, 5];
+
+// console.log(numArr);
+// console.log(numArr.sort());
+
+// with numbers the result is not what we expect and thats because the sort() method does the sorting based on strings :
+
+// first the sort method converts everything to string and then does the sorting
+
+// how to fix this behavior ? by passing a compare callback function into the sort mehtod :
+
+numArr.sort((a, b) => {
+  if (a > b) return 1; //change order
+  if (b > a) return -1; //keep order
+}); // called with 2 arguments a is the current valu and b is the next value
+
+// the logic is :
+
+// Ascendant order -> from smaller to bigger :
+// less than 0 ? A before B
+// greater than 0 ? B before A
+
+// numArr.sort((a, b) => a - b);
+// current element (12) - next element (25) will return negative value that means that be is greater than a so no changement
+console.log(numArr);
+
+console.log(movements.sort((a, b) => (a - b < 0 ? -1 : 1)));
