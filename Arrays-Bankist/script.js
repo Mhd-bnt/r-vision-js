@@ -12,6 +12,7 @@ const account1 = {
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+  type: 'premium',
 };
 
 const account2 = {
@@ -19,6 +20,7 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+  type: 'standard',
 };
 
 const account3 = {
@@ -26,6 +28,7 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  type: 'premium',
 };
 
 const account4 = {
@@ -33,6 +36,7 @@ const account4 = {
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
+  type: 'basic',
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -861,3 +865,34 @@ numArr.sort((a, b) => {
 console.log(numArr);
 
 console.log(movements.sort((a, b) => (a - b < 0 ? -1 : 1)));
+
+// Array Grouping : Groupe values depending based on a condition condition :
+// -------------------------------------------------------------------------
+
+console.log('-----Grouping method--------');
+console.log(movements);
+
+// gouping deposits together and withdrawals together :
+
+const groupedMovements = Object.groupBy(movements, mov =>
+  mov > 0 ? 'deposits' : 'withdrawal'
+); // accepts 2 parameters first is the array seconde is a callback function which will determine how we will group the values
+console.log(groupedMovements);
+
+// returns an object with 2 propreties : deposits and withdrawals who hold arrays as value
+
+const groupedByActivity = Object.groupBy(accounts, account => {
+  const movementCount = account.movements.length;
+  if (movementCount >= 8) return 'very active';
+  if (movementCount >= 5) return 'active';
+  if (movementCount >= 1) return 'moderate';
+  return 'inactive';
+});
+
+console.log(groupedByActivity);
+
+// using groupBy on objects (main use cases) :
+
+const groupedAccounts = Object.groupBy(accounts, account => account.type);
+
+console.log(groupedAccounts);
