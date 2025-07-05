@@ -216,6 +216,24 @@ btnClose.addEventListener('click', e => {
 });
 // indexof would not work here because it will only search for the elements inside the accounts array with findInex we can go deep into condition and even compare proprety inside the object
 // -------------------------------------------------------------------
+// Requesting a loan : using some method
+
+btnLoan.addEventListener('click', e => {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (
+    amount > 0 &&
+    currentAccount.movements.some(mov => mov >= (amount * 10) / 100)
+  ) {
+    // add Movement:
+    currentAccount.movements.push(amount);
+    // update UI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});
+
+// -------------------------------------------------------------------
 // --------------
 // map() method :
 // --------------
@@ -443,7 +461,7 @@ const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 
 console.log(movements);
 
-const lastWithdrawal = movements.findLast(mov => mov < 0); //finlast() starts looking from the end of the array
+const lastWithdrawal = movements.findLast(mov => mov < 0); //finlast() starts looking from the end of the array and returns the element that correspond to the condition
 
 // console.log(lastWithdrawal);
 const latestLargeMovementIndex = movements.findLastIndex(
@@ -455,3 +473,340 @@ console.log(
     movements.length - latestLargeMovementIndex - 1
   } movements ago`
 );
+
+// More ways of creating arrays :
+// ------------------------------
+const arr = [1, 2, 3, 4, 5, 6, 7]; // before we did it like this or
+
+// or by using the array constructor like this  :
+
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+// we can also generating array programmatically without specifiying all the elements manually
+
+const x = new Array(7);
+console.log(x); // output will be : [empty × 7]
+// if we specify 1 paramater in the new Array constructor it will return an array with a length of 7 here but no elements inside
+// we can not really use that x array
+
+// fille() method :
+
+// x.fill(4); // it will fill the x array with the parameter we passed in
+x.fill(1, 3, 5); //we can also specify where we want to start to fill | first paramater is the element i want inside the array | second paramater is the index where the 'fill' will start it's like a begin parameter here we will start at index 3| 3 parameter is the end parameter it's when the fill should stop here. at index 5 but 5 is not included
+console.log(x); // output will be  : [4, 4, 4, 4, 4, 4, 4]
+// we can also use the fill method with other arrays
+
+arr.fill(23, 4, 6); // we fill add 23 at index 4 until index 5 (6 not included) the fill method mutates the original array !!
+console.log(arr);
+
+// Imagin i wante to recreate this array programmatically [1, 2, 3, 4, 5, 6, 7] how can i do it ?
+
+// with the Array.from method :
+
+const y = Array.from({ length: 7 }, () => 1); //!! the from method here is not used on an array !! we used it on an constructor
+// here the callback function returns 1 at each iterration
+
+// first we pass in an object with the length proprety that will be the length of the futur array and second argument will be a mapping function and we don't need any parameters inside the call back function
+
+console.log(y);
+
+// Creating an array from 1 to 7 :
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1); //and like reduce / map and filter we got acces to the current element and the index
+
+console.log(z);
+
+// underscore inside the callback function paramater is a convention for ( throw away variable) it's a value that will not be used we added it because we can not skipped and go directyly to the current index (i)
+
+// some use case :
+
+// Challenge : creat an array with 100 random dice rolls for example
+
+// const diceRolls = Array.from(
+//   { length: 100 },
+//   () => Math.trunc(Math.random() * 6) + 1
+// );
+
+// console.log(diceRolls);
+
+// More real use case :
+// --------------------
+
+// Array.from() was intruduced to be able to create arrays from 'array like structures' (itterables) strings sets maps and they can be converted to real arrays using Array.from()
+
+// other good exemple of array like structures is the result of using querySelectorAll => returns an nodeList it's like an array but not a real one it doesnt have acces to arrays method, so if i want to use an array method on a nodeList a would first need to convert it into an array
+
+// Imagine ours movements are not stored into an array :
+
+// const movementsUI = Array.from(document.querySelectorAll('.movements__value')); //and like in this example we can see that a callback function is not mandatory if i juste want the element ans put them into an array i can do it like this
+
+labelBalance.addEventListener('click', () => {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    current => Number(current.textContent.replace('€', ''))
+  );
+
+  console.log(movementsUI);
+});
+
+// click here doesn't really matter we added it because if we first load the page we have only 2 elements with the movements__value classe , we only got the other movement once we are loged
+
+// calling the map method would not work here if i called it directly on the document.querySelectorAll, because th nodeList is not an array
+
+// Array method practice :
+// ------------------------
+// 1:
+const bankDepositSum = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(bankDepositSum);
+
+// 2: how many deposits with at least 1000$
+// flatMap()method unpack the arrays inside an array to creat an array with all elements inside :
+const overThousand = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov >= 1000).length;
+console.log(overThousand);
+
+// other wat of doing it with reduce()
+
+const overThousand1 = accounts
+  .flatMap(el => el.movements)
+  .reduce((count, mov) => (mov >= 1000 ? ++count : count), 0); //prefixed ++ operator
+
+console.log(overThousand1);
+
+// Prefixed ++ operator:
+
+let a = 10;
+// console.log(a++); //will return the old value so 10
+console.log(a); //know it will return 11
+// if we want to avoid such behavior we need to use the prefixed ++ operator like this:
+
+console.log(++a); // output will be 11
+
+// 3 use reduce to get an object as output :
+
+// create an object which contains the sum of the deposits and of the withdrawals
+
+const { deposits: depot, withdrawals: retrait } = accounts // the returned value is an object so we can immediatly destructure it
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, current) => {
+      current > 0 ? (sums.deposits += current) : (sums.withdrawals += current);
+      return sums; // returning sum object containing deposits and withdrawal proprety
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+
+console.log(depot, retrait);
+
+// 4:
+// Create a function to convert any string to a title case
+
+const convertToTitleCase = title => {
+  const exceptions = ['a', 'an', 'the', 'and', 'but', 'or', 'on', 'in', 'with'];
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(el =>
+      exceptions.includes(el) ? el : el.replace(el[0], el[0].toUpperCase())
+    )
+    .join(' ');
+  return titleCase;
+};
+
+console.log(convertToTitleCase('and Here is Another Title with an eXAMPLE'));
+
+// Challenge #5 :
+
+// Julia and Kate are still studying dogs, and this time they are studying if dogs are
+// eating too much or too little.
+
+// Eating too much means the dog's current food portion is larger than the
+// recommended portion, and eating too little is the opposite.
+// Eating an okay amount means the dog's current food portion is within a range 10%
+// above and 10% below the recommended portion (see hint).
+
+// Your tasks:
+
+// 1. Loop over the 'dogs' array containing dog objects, and for each dog, calculate
+// the recommended food portion and add it to the object as a new property. Do
+// not create a new array, simply loop over the array. Forumla:
+// recommendedFood = weight ** 0.75 * 28. (The result is in grams of
+// food, and the weight needs to be in kg)✅
+
+// 2. Find Sarah's dog and log to the console whether it's eating too much or too
+// little. Hint: Some dogs have multiple owners, so you first need to find Sarah in
+// the owners array, and so this one is a bit tricky (on purpose) 🤓 ✅
+
+// 3. Create an array containing all owners of dogs who eat too much
+// ('ownersEatTooMuch') and an array with all owners of dogs who eat too little
+// ('ownersEatTooLittle').✅
+
+// 4. Log a string to the console for each array created in 3., like this: "Matilda and
+// Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat
+// too little!" ✅
+
+// 5. Log to the console whether there is any dog eating exactly the amount of food
+// that is recommended (just true or false)✅
+
+// 6. Log to the console whether there is any dog eating an okay amount of food
+// (just true or false)
+
+// 7. Create an array containing the dogs that are eating an okay amount of food (try
+// to reuse the condition used in 6.)
+
+// 8. Create a shallow copy of the 'dogs' array and sort it by recommended food
+// portion in an ascending order (keep in mind that the portions are inside the
+// array's objects 😉)
+
+// Hints:
+
+// § Use many different tools to solve these challenges, you can use the summary
+// lecture to choose between them 😉
+
+// § Being within a range 10% above and below the recommended portion means:
+// current > (recommended * 0.90) && current < (recommended *
+// 1.10). Basically, the current portion should be between 90% and 110% of the
+// recommended portion.
+
+// Test data:
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// GOOD LUCK 😀
+
+// const n = dogs.map(el => {});
+
+// Adding recommandedFood proprety in dog object :
+dogs.forEach(el => {
+  el.recommendedFood = Math.trunc(el.weight ** 0.75 * 28);
+});
+
+// Finding dogs owner
+const findOwner = function (owners) {
+  const owner = dogs.find(current => {
+    if (current.owners.includes(`${owners}`)) return current;
+  });
+  const eatsEnough =
+    owner.curFood > owner.recommendedFood
+      ? `${owners}'s dog eats to much`
+      : `${owners}'s dog don't eat enough`;
+  return eatsEnough;
+};
+// console.log(dogs[0].owners.includes('Alice'));
+console.log(findOwner('Bob'));
+// console.log(dogs);
+
+console.log(dogs);
+
+// dogs.forEach(current => {
+//   current.curFood > current.recommendedFood ?
+// })
+
+const ownersEatTooMuch = [];
+const ownersEatTooLittle = [];
+dogs.find(current => {
+  current.curFood > current.recommendedFood
+    ? ownersEatTooMuch.push(...current.owners)
+    : ownersEatTooLittle.push(...current.owners);
+});
+
+console.log(ownersEatTooMuch);
+// console.log(ownersEatTooLittle);
+
+// 4:
+console.log(`${ownersEatTooMuch.join(' and ')}'s dogs are eating too much `);
+console.log(`${ownersEatTooLittle.join(' and ')}'s are eating too little `);
+
+let eatsRecommanded = dogs.forEach(dog =>
+  console.log(dog.recommendedFood === dog.curFood)
+);
+
+console.log(
+  dogs.every(
+    current =>
+      current.curFood > current.recommendedFood * 0.9 &&
+      current.curFood < current.recommendedFood * 1.1
+  )
+);
+
+let test = dogs.every(dog => console.log(dog));
+
+// Some and Every method :
+// -----------------------
+console.log(movements);
+
+console.log(movements.includes(-130)); //test for 'equality' returns true or false
+
+// what if we want to test for a condition ? :
+
+// some() :
+
+// looking for any positive movements in the movements array :
+
+const anyDeposits = movements.some(mov => mov > 0); //and we can specify any condition we want as parameter
+console.log(anyDeposits); // returns true or false
+
+// looking for any deposits above 5000 :
+
+const aboveFive = movements.some(mov => mov >= 5000);
+
+console.log(aboveFive);
+
+// returns true or false
+
+// Every() method :
+// ----------------
+
+// returns true ONLY if all element pass the condition that we set as parameter :
+
+const n = movements.every(mov => mov > 0);
+
+console.log(n); //returns false
+
+const m = movements.every(mov => typeof mov === 'number');
+
+console.log(m); // returns true
+
+// flat and flatMap :
+
+//  imagine having a nested array
+const ar = [[1, 2, 3], [4, 5, 6], 7, 8];
+
+// what if we want to take all elements ousite the sub arrays and put them all together inside one array :
+
+console.log(ar.flat()); //no call back function just like this
+
+// imagin havin a deep nested array :
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+
+console.log(arrDeep.flat()); // outpu will be. : [Array(2), 3, 4, Array(2), 7, 8] flat only goes one level deep
+
+// but we can actuelly specify a parameter to the flat method and this will change the 'deepness' of the flat by default it's one but we can set it to 2 if needed :
+console.log(arrDeep.flat(2)); // output : [1, 2, 3, 4, 5, 6, 7, 8] and now we go into the 'second' level of nesting
+
+console.log('-----All movements-----');
+const allMovArr = accounts.flatMap(el => el.movements);
+
+console.log(allMovArr);
+
+const sumAllMov = allMovArr.reduce((acc, mov) => acc + mov, 0);
+
+console.log(sumAllMov);
+
+// with Chaining :
+
+const sumAllMovements = accounts
+  .flatMap(el => el.movements) // the differnce between normal flat is that flatmap only goes to one level of nesting and we can not change that so if i have 2 or 3 levels of nesting flat is sill the way to go
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(sumAllMovements);
